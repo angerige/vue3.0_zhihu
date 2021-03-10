@@ -4,7 +4,22 @@
 		<form>
 			<div class="mb-3">
 				<label class="form-label">Email address</label>
-				<validate-input :rules="emailRules" v-model="email" />
+				<validate-input
+					:rules="formRules.emailRules"
+					v-model="email"
+					type="text"
+					placeholder="请输入邮箱地址"
+				/>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label">Password</label>
+				<validate-input
+					:rules="formRules.passwordRules"
+					v-model="password"
+					type="password"
+					placeholder="请输入密码"
+				/>
 			</div>
 
 			<div class="mb-3 form-check">
@@ -31,6 +46,11 @@ interface DataList {
 	user: UserProps;
 }
 
+interface formRules {
+	emailRules: RulesProp;
+	passwordRules: RulesProp;
+}
+
 export default defineComponent({
 	name: "App",
 	components: {
@@ -39,12 +59,21 @@ export default defineComponent({
 		ValidateInput,
 	},
 	setup() {
-		const emailRules: RulesProp = [
-			{ type: "required", message: "电子邮件地址不能为空" },
-			{ type: "email", message: "请输入正确的电子邮箱" },
-		];
-		const email = ref("");
+		const formData = reactive({
+			email: "",
+			password: "",
+		});
 
+		const formRules: formRules = {
+			emailRules: [
+				{ type: "required", message: "电子邮件地址不能为空" },
+				{ type: "email", message: "请输入正确的电子邮箱" },
+			],
+			passwordRules: [
+				{ type: "required", message: "密码不能为空" },
+				{ type: "password", message: "请输入正确的密码" },
+			],
+		};
 		const dataList = reactive<DataList>({
 			list: [
 				{
@@ -82,8 +111,8 @@ export default defineComponent({
 
 		return {
 			...toRefs(dataList),
-			emailRules,
-			email,
+			...toRefs(formData),
+			formRules,
 		};
 	},
 });

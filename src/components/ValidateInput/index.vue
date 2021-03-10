@@ -1,12 +1,12 @@
 <template>
 	<div class="validate-input-container pb-3">
 		<input
-			type="text"
 			class="form-control"
 			:class="{ 'is-invalid': error }"
 			:value="value"
 			@blur="validateEmail"
 			@input="updateValue"
+			v-bind="$attrs"
 		/>
 
 		<div v-if="error" class="invalid-feedback">
@@ -19,7 +19,7 @@
 import { defineComponent, PropType, reactive, toRefs } from "@vue/runtime-core";
 
 interface RuleProp {
-	type: "required" | "email";
+	type: "required" | "email" | "password";
 	message: string;
 }
 
@@ -34,7 +34,8 @@ export default defineComponent({
 		rules: Array as PropType<RulesProp>,
 		modelValue: String,
 	},
-	setup(props, { emit }) {
+	inheritAttrs: false,
+	setup(props, { emit, attrs }) {
 		const inputRef = reactive({
 			value: props.modelValue || "",
 			error: false,
