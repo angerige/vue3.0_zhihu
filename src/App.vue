@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 		<global-header :user="user" />
-		<form>
+		<validate-form @form-submit="onFormSubmit">
 			<div class="mb-3">
 				<label class="form-label">Email address</label>
 				<validate-input
@@ -26,8 +26,11 @@
 				<input type="checkbox" class="form-check-input" id="exampleCheck1" />
 				<label class="form-check-label" for="exampleCheck1">Check me out</label>
 			</div>
-			<button type="submit" class="btn btn-primary">Submit</button>
-		</form>
+
+			<template #submit>
+				<span class="btn btn-danger">Submit</span>
+			</template>
+		</validate-form>
 		<!-- <column-list :list="list" /> -->
 	</div>
 </template>
@@ -40,6 +43,7 @@ import logoImg from "@/assets/logo.png";
 import ColumnList, { ColumnProps } from "./components/ColumnList/index.vue";
 import GlobalHeader, { UserProps } from "./components/GlobalHeader/index.vue";
 import ValidateInput, { RulesProp } from "./components/ValidateInput/index.vue";
+import ValidateForm from "./components/ValidateForm/index.vue";
 
 interface DataList {
 	list: Array<ColumnProps>;
@@ -57,6 +61,7 @@ export default defineComponent({
 		ColumnList,
 		GlobalHeader,
 		ValidateInput,
+		ValidateForm,
 	},
 	setup() {
 		const formData = reactive({
@@ -109,10 +114,14 @@ export default defineComponent({
 			},
 		});
 
+		const onFormSubmit = (result: boolean) => {
+			console.log("123", result);
+		};
 		return {
 			...toRefs(dataList),
 			...toRefs(formData),
 			formRules,
+			onFormSubmit,
 		};
 	},
 });
