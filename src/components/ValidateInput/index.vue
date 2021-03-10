@@ -4,8 +4,9 @@
 			type="text"
 			class="form-control"
 			:class="{ 'is-invalid': error }"
-			v-model="value"
+			:value="value"
 			@blur="validateEmail"
+			@input="updateValue"
 		/>
 
 		<div v-if="error" class="invalid-feedback">
@@ -31,10 +32,11 @@ export default defineComponent({
 	name: "ValidateInput",
 	props: {
 		rules: Array as PropType<RulesProp>,
+		modelValue: String,
 	},
-	setup(props) {
+	setup(props, { emit }) {
 		const inputRef = reactive({
-			value: "",
+			value: props.modelValue || "",
 			error: false,
 			message: "",
 		});
@@ -63,9 +65,16 @@ export default defineComponent({
 			}
 		};
 
+		const updateValue = (event: KeyboardEvent) => {
+			const targetValue = (event.target as HTMLInputElement).value;
+			inputRef.value = targetValue;
+			emit("update:modelValue", targetValue);
+		};
+
 		return {
 			...toRefs(inputRef),
 			validateEmail,
+			updateValue,
 		};
 	},
 });

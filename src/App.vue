@@ -4,7 +4,7 @@
 		<form>
 			<div class="mb-3">
 				<label class="form-label">Email address</label>
-				<validate-input :rules="emailRules" />
+				<validate-input :rules="emailRules" v-model="email" />
 			</div>
 
 			<div class="mb-3 form-check">
@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from "vue";
+import { defineComponent, reactive, ref, toRefs } from "vue";
 // 图片
 import logoImg from "@/assets/logo.png";
 // 组件
@@ -43,6 +43,7 @@ export default defineComponent({
 			{ type: "required", message: "电子邮件地址不能为空" },
 			{ type: "email", message: "请输入正确的电子邮箱" },
 		];
+		const email = ref("");
 
 		const dataList = reactive<DataList>({
 			list: [
@@ -82,6 +83,7 @@ export default defineComponent({
 		return {
 			...toRefs(dataList),
 			emailRules,
+			email,
 		};
 	},
 });
