@@ -3,27 +3,10 @@
 		<global-header :user="user" />
 		<form>
 			<div class="mb-3">
-				<label for="exampleInputEmail1" class="form-label">Email address</label>
-				<input
-					type="email"
-					class="form-control"
-					id="exampleInputEmail1"
-					aria-describedby="emailHelp"
-					v-model="value"
-					@blur="validateEmail"
-				/>
-				<div class="form-text" v-if="error">
-					{{ message }}
-				</div>
+				<label class="form-label">Email address</label>
+				<validate-input :rules="emailRules" />
 			</div>
-			<div class="mb-3">
-				<label for="exampleInputPassword1" class="form-label">Password</label>
-				<input
-					type="password"
-					class="form-control"
-					id="exampleInputPassword1"
-				/>
-			</div>
+
 			<div class="mb-3 form-check">
 				<input type="checkbox" class="form-check-input" id="exampleCheck1" />
 				<label class="form-check-label" for="exampleCheck1">Check me out</label>
@@ -41,37 +24,25 @@ import logoImg from "@/assets/logo.png";
 // 组件
 import ColumnList, { ColumnProps } from "./components/ColumnList/index.vue";
 import GlobalHeader, { UserProps } from "./components/GlobalHeader/index.vue";
+import ValidateInput, { RulesProp } from "./components/ValidateInput/index.vue";
 
 interface DataList {
 	list: Array<ColumnProps>;
 	user: UserProps;
 }
 
-// email正则表达式
-const emailReg = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
-
 export default defineComponent({
 	name: "App",
 	components: {
 		ColumnList,
 		GlobalHeader,
+		ValidateInput,
 	},
 	setup() {
-		const emailRef = reactive({
-			value: "",
-			error: false,
-			message: "",
-		});
-
-		const validateEmail = () => {
-			if (emailRef.value.trim() === "") {
-				emailRef.error = true;
-				emailRef.message = "can not be empty";
-			} else if (!emailReg.test(emailRef.value)) {
-				emailRef.error = true;
-				emailRef.message = "should be valid message";
-			}
-		};
+		const emailRules: RulesProp = [
+			{ type: "required", message: "电子邮件地址不能为空" },
+			{ type: "email", message: "请输入正确的电子邮箱" },
+		];
 
 		const dataList = reactive<DataList>({
 			list: [
@@ -110,8 +81,7 @@ export default defineComponent({
 
 		return {
 			...toRefs(dataList),
-			...toRefs(emailRef),
-			validateEmail,
+			emailRules,
 		};
 	},
 });
