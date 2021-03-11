@@ -9,7 +9,7 @@ export interface State {
 
 const store = createStore<State>({
 	state: {
-		user: { isLogin: false, name: "tom", columnId: 1 },
+		user: { isLogin: true, name: "tom", columnId: 1 },
 		columns: [],
 		posts: [],
 	},

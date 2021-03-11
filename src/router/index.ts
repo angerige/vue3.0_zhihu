@@ -15,11 +15,17 @@ const routes: Array<RouteRecordRaw> = [
 	{
 		path: "/login",
 		name: "Login",
+		meta: {
+			redirectAlreadyLogin: true,
+		},
 		component: () => import("@/views/Login.vue"),
 	},
 	{
 		path: "/createpost",
 		name: "CreatePost",
+		meta: {
+			requiredLogin: true,
+		},
 		component: () => import("@/views/CreatePost.vue"),
 	},
 ];
@@ -31,8 +37,10 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
 	/* must call `next` */
-	if (to.name !== "Login" && !store.state.user.isLogin) {
+	if (to.meta.requiredLogin && !store.state.user.isLogin) {
 		next({ name: "Login" });
+	} else if (to.meta.redirectAlreadyLogin && store.state.user.isLogin) {
+		next("/");
 	} else {
 		next();
 	}
