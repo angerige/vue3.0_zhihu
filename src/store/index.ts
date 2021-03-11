@@ -9,7 +9,7 @@ export interface State {
 
 const store = createStore<State>({
 	state: {
-		user: { isLogin: false },
+		user: { isLogin: false, name: "tom", columnId: 1 },
 		columns: [],
 		posts: [],
 	},
@@ -17,6 +17,9 @@ const store = createStore<State>({
 	mutations: {
 		login(state: State) {
 			state.user = { ...state.user, isLogin: true, name: "tom" };
+		},
+		createPost(state: State, value) {
+			state.posts = [...state.posts, value];
 		},
 	},
 	getters: {

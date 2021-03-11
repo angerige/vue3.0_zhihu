@@ -1,6 +1,7 @@
 <template>
 	<div class="validate-input-container pb-3">
 		<input
+			v-if="tag !== 'textarea'"
 			class="form-control"
 			:class="{ 'is-invalid': error }"
 			:value="value"
@@ -9,6 +10,15 @@
 			v-bind="$attrs"
 		/>
 
+		<textarea
+			class="form-control"
+			v-else
+			:class="{ 'is-invalid': error }"
+			:value="value"
+			@blur="validateInput"
+			@input="updateValue"
+			v-bind="$attrs"
+		/>
 		<div v-if="error" class="invalid-feedback">
 			{{ message }}
 		</div>
@@ -31,7 +41,7 @@ interface RuleProp {
 }
 
 export type RulesProp = RuleProp[];
-
+export type Tagtype = "input" | "textarea";
 // email正则表达式
 const emailReg = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
 
@@ -40,6 +50,10 @@ export default defineComponent({
 	props: {
 		rules: Array as PropType<RulesProp>,
 		modelValue: String,
+		tag: {
+			type: String as PropType<Tagtype>,
+			default: "input",
+		},
 	},
 	inheritAttrs: false,
 	setup(props, { emit, attrs }) {

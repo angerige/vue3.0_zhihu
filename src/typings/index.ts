@@ -3,6 +3,7 @@ interface UserProps {
 	isLogin: boolean;
 	name?: string;
 	id?: number;
+	columnId?: number;
 }
 
 /**
@@ -20,7 +21,7 @@ interface PostProps {
 	title: string;
 	content: string;
 	image?: string;
-	createAll: string;
+	createdAt: string;
 	columnId: number;
 }
 
