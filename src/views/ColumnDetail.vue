@@ -15,9 +15,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/runtime-core";
+import { computed, defineComponent } from "@vue/runtime-core";
 import { useRoute } from "vue-router";
+import { useStore } from "vuex";
 import PostList from "../components/PostList/index.vue";
+import { State } from "../store";
 
 export default defineComponent({
 	name: "ColumnDetail",
@@ -26,12 +28,11 @@ export default defineComponent({
 	},
 	setup() {
 		const route = useRoute();
+		const store = useStore<State>();
 		const currentId = +route.params.id;
-		// TODO 使用vuex状态管理 和 axios请求 不在做测试数据
-		// const column = testData.find(c => c.id === currentId);
-		// const list = testProps.filter(post => post.columnId === currentId);
-
-		return {};
+		const list = computed(() => store.getters.getPostsByCid(currentId));
+		const column = computed(() => store.getters.getColumnById(currentId));
+		return { list, column };
 	},
 });
 </script>

@@ -19,6 +19,17 @@ const store = createStore<State>({
 			state.user = { ...state.user, isLogin: true, name: "tom" };
 		},
 	},
+	getters: {
+		biggerColumnLen(state: State) {
+			return state.columns.filter(c => c.id > 2).length;
+		},
+		getColumnById: (state: State) => (id: number) => {
+			return state.columns.find(c => c.id === id);
+		},
+		getPostsByCid: (state: State) => (cid: number) => {
+			return state.posts.filter(post => post.columnId === cid);
+		},
+	},
 	modules: {},
 });
 
