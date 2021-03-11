@@ -66,11 +66,11 @@ export default defineComponent({
 	},
 	setup() {
 		const formData = reactive({
-			email: "angerige@yeah.net",
-			password: "123456",
+			email: "",
+			password: "",
 		});
 
-		const inputRef = ref<any>();
+		const inputRef = ref<any | HTMLElement>();
 
 		const formRules: formRules = {
 			emailRules: [
@@ -118,9 +118,7 @@ export default defineComponent({
 		});
 
 		const onFormSubmit = (result: boolean) => {
-			console.log(inputRef.value.validateEmail());
-
-			console.log("123", result);
+			console.log(result);
 		};
 		return {
 			...toRefs(dataList),

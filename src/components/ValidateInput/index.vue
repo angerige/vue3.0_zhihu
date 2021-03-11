@@ -4,7 +4,7 @@
 			class="form-control"
 			:class="{ 'is-invalid': error }"
 			:value="value"
-			@blur="validateEmail"
+			@blur="validateInput"
 			@input="updateValue"
 			v-bind="$attrs"
 		/>
@@ -49,7 +49,7 @@ export default defineComponent({
 			message: "",
 		});
 
-		const validateEmail = (): boolean => {
+		const validateInput = (): boolean => {
 			if (props.rules) {
 				const allPassed: boolean = props.rules.every(rule => {
 					let passed = true;
@@ -81,12 +81,12 @@ export default defineComponent({
 		};
 
 		onMounted(() => {
-			emitter.emit("form-item-created", inputRef.value);
+			emitter.emit("form-item-created", validateInput);
 		});
 
 		return {
 			...toRefs(inputRef),
-			validateEmail,
+			validateInput,
 			updateValue,
 		};
 	},
