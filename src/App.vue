@@ -1,7 +1,9 @@
 <template>
 	<div class="container">
 		<global-header :user="user" />
-		<validate-form @form-submit="onFormSubmit">
+		<router-view />
+		<global-footer />
+		<!-- <validate-form @form-submit="onFormSubmit">
 			<div class="mb-3">
 				<label class="form-label">Email address</label>
 				<validate-input
@@ -31,7 +33,7 @@
 			<template #submit>
 				<span class="btn btn-danger">Submit</span>
 			</template>
-		</validate-form>
+		</validate-form> -->
 		<!-- <column-list :list="list" /> -->
 	</div>
 </template>
@@ -45,6 +47,7 @@ import ColumnList, { ColumnProps } from "./components/ColumnList/index.vue";
 import GlobalHeader, { UserProps } from "./components/GlobalHeader/index.vue";
 import ValidateInput, { RulesProp } from "./components/ValidateInput/index.vue";
 import ValidateForm from "./components/ValidateForm/index.vue";
+import GlobalFooter from "./components/GlobalFooter/index.vue";
 
 interface DataList {
 	list: Array<ColumnProps>;
@@ -63,6 +66,7 @@ export default defineComponent({
 		GlobalHeader,
 		ValidateInput,
 		ValidateForm,
+		GlobalFooter,
 	},
 	setup() {
 		const formData = reactive({
