@@ -3,11 +3,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/runtime-core";
+import { computed, defineComponent } from "@vue/runtime-core";
 import ColumnList, { ColumnProps } from "../components/ColumnList/index.vue";
-// 图片
-import logoImg from "@/assets/logo.png";
-import { reactive, toRefs } from "vue";
+import { useStore } from "vuex";
+import { State } from "../store";
 
 interface DataList {
 	list: Array<ColumnProps>;
@@ -18,39 +17,11 @@ export default defineComponent({
 		ColumnList,
 	},
 	setup() {
-		const dataList = reactive<DataList>({
-			list: [
-				{
-					id: 1,
-					title: "test1的专栏",
-					description:
-						"test1的专栏test1的专栏test1的专栏test1的专栏test1的专栏",
-				},
-				{
-					id: 2,
-					title: "test2的专栏",
-					description:
-						"test1的专栏test1的专栏test1的专栏test1的专栏test1的专栏",
-					avatar: logoImg,
-				},
-				{
-					id: 3,
-					title: "test2的专栏",
-					description:
-						"test1的专栏test1的专栏test1的专栏test1的专栏test1的专栏",
-					avatar: logoImg,
-				},
-				{
-					id: 4,
-					title: "test2的专栏",
-					description:
-						"test1的专栏test1的专栏test1的专栏test1的专栏test1的专栏",
-				},
-			],
-		});
+		const store = useStore<State>();
+		const list = computed(() => store.state.columns);
 
 		return {
-			...toRefs(dataList),
+			list,
 		};
 	},
 });

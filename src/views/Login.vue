@@ -40,6 +40,8 @@ import ValidateInput, {
 } from "../components/ValidateInput/index.vue";
 import ValidateForm from "../components/ValidateForm/index.vue";
 import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+import { State } from "../store";
 
 interface formRules {
 	emailRules: RulesProp;
@@ -51,6 +53,7 @@ export default defineComponent({
 	components: { ValidateInput, ValidateForm },
 	setup() {
 		const router = useRouter();
+		const store = useStore<State>();
 
 		const formData = reactive({
 			email: "",
@@ -72,6 +75,8 @@ export default defineComponent({
 
 		const onFormSubmit = (result: boolean) => {
 			if (result) {
+				// 后续axios 请求
+				store.commit("login");
 				router.push({ name: "Home" });
 			}
 			console.log(result);

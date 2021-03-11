@@ -34,15 +34,9 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "@vue/runtime-core";
-
+import { UserProps } from "../../typings/index";
 import Dropdown from "../Dropdown/index.vue";
 import DropdownItem from "../Dropdown/Item.vue";
-
-export interface UserProps {
-	isLogin: boolean;
-	name?: string;
-	id?: number;
-}
 
 export default defineComponent({
 	name: "GlobalHeader",
@@ -58,5 +52,3 @@ export default defineComponent({
 	},
 });
 </script>
-
-<style scoped></style>

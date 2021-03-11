@@ -7,14 +7,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from "vue";
+import { computed, defineComponent } from "vue";
 
 // 组件
-import GlobalHeader, { UserProps } from "./components/GlobalHeader/index.vue";
+import GlobalHeader from "./components/GlobalHeader/index.vue";
 import GlobalFooter from "./components/GlobalFooter/index.vue";
-interface DataList {
-	user: UserProps;
-}
+import { useStore } from "vuex";
+import { State } from "./store";
+
 export default defineComponent({
 	name: "App",
 	components: {
@@ -22,14 +22,10 @@ export default defineComponent({
 		GlobalFooter,
 	},
 	setup() {
-		const dataList = reactive<DataList>({
-			user: {
-				isLogin: false,
-				name: "angerige",
-			},
-		});
+		const store = useStore<State>();
+		const user = computed(() => store.state.user);
 		return {
-			...toRefs(dataList),
+			user,
 		};
 	},
 });

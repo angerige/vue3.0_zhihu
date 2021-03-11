@@ -1,3 +1,10 @@
+// User interface
+interface UserProps {
+	isLogin: boolean;
+	name?: string;
+	id?: number;
+}
+
 /**
  * Column
  */
@@ -17,4 +24,4 @@ interface PostProps {
 	columnId: number;
 }
 
-export { ColumnProps, PostProps };
+export { ColumnProps, PostProps, UserProps };
