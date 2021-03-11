@@ -9,6 +9,7 @@
 					v-model="email"
 					type="text"
 					placeholder="请输入邮箱地址"
+					ref="inputRef"
 				/>
 			</div>
 
@@ -65,9 +66,11 @@ export default defineComponent({
 	},
 	setup() {
 		const formData = reactive({
-			email: "",
-			password: "",
+			email: "angerige@yeah.net",
+			password: "123456",
 		});
+
+		const inputRef = ref<any>();
 
 		const formRules: formRules = {
 			emailRules: [
@@ -115,6 +118,8 @@ export default defineComponent({
 		});
 
 		const onFormSubmit = (result: boolean) => {
+			console.log(inputRef.value.validateEmail());
+
 			console.log("123", result);
 		};
 		return {
@@ -122,6 +127,7 @@ export default defineComponent({
 			...toRefs(formData),
 			formRules,
 			onFormSubmit,
+			inputRef,
 		};
 	},
 });

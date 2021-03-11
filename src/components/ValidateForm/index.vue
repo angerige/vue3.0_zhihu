@@ -10,7 +10,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/runtime-core";
+import { defineComponent, onUnmounted } from "@vue/runtime-core";
+import mitt from "mitt";
+
+export const emitter = mitt();
 
 export default defineComponent({
 	name: "ValidateForm",
@@ -19,6 +22,15 @@ export default defineComponent({
 		const submitForm = () => {
 			emit("form-submit", true);
 		};
+
+		const callback = (test: any) => {
+			console.log(test);
+		};
+
+		emitter.on("form-item-created", callback);
+		onUnmounted(() => {
+			emitter.off("form-item-created", callback);
+		});
 		return {
 			submitForm,
 		};

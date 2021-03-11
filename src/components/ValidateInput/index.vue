@@ -16,7 +16,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, reactive, toRefs } from "@vue/runtime-core";
+import {
+	defineComponent,
+	onMounted,
+	PropType,
+	reactive,
+	toRefs,
+} from "@vue/runtime-core";
+import { emitter } from "../ValidateForm/index.vue";
 
 interface RuleProp {
 	type: "required" | "email" | "password";
@@ -42,7 +49,7 @@ export default defineComponent({
 			message: "",
 		});
 
-		const validateEmail = (): void => {
+		const validateEmail = (): boolean => {
 			if (props.rules) {
 				const allPassed: boolean = props.rules.every(rule => {
 					let passed = true;
@@ -58,12 +65,13 @@ export default defineComponent({
 						default:
 							break;
 					}
-
 					return passed;
 				});
 
 				inputRef.error = !allPassed;
+				return allPassed;
 			}
+			return true;
 		};
 
 		const updateValue = (event: KeyboardEvent) => {
@@ -71,6 +79,10 @@ export default defineComponent({
 			inputRef.value = targetValue;
 			emit("update:modelValue", targetValue);
 		};
+
+		onMounted(() => {
+			emitter.emit("form-item-created", inputRef.value);
+		});
 
 		return {
 			...toRefs(inputRef),
